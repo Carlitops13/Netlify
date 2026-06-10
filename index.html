@@ -90,6 +90,7 @@
 
         <label for="mensaje">Mensaje</label>
         <textarea id="mensaje" name="mensaje" rows="5" placeholder="Escribe un mensaje..." required></textarea>
+        <div id="contador" class="fecha">0 caracteres</div>
 
         <button id="btnEnviar" type="submit">Enviar al backend</button>
       </form>
@@ -109,6 +110,7 @@
     const listaMensajes = document.getElementById("listaMensajes");
     const btnEnviar = document.getElementById("btnEnviar");
     const btnCargar = document.getElementById("btnCargar");
+
 
     const API_BASE = "/api";
 
@@ -180,6 +182,25 @@
         btnEnviar.textContent = "Enviar al backend";
       }
     });
+    // Mostrar cuántos caracteres tiene el mensaje antes de enviarlo.
+    document.getElementById("mensaje").addEventListener("input", function() {
+      const caracteres = this.value.length;
+      document.getElementById("contador").textContent = `${caracteres} caracteres`;
+    });
+
+    // Agregar un botón para limpiar los mensajes mostrados en pantalla.
+    const btnLimpiar = document.createElement("button");
+    btnLimpiar.textContent = "Limpiar mensajes";
+    btnLimpiar.addEventListener("click", () => {
+      listaMensajes.innerHTML = "";
+    });
+    document.querySelector(".card:nth-child(2)").appendChild(btnLimpiar);
+
+    //Guardar los mensajes recibidos en localStorage para que no desaparezcan al recargar.
+    function guardarMensajesEnLocalStorage(mensajes) {
+      localStorage.setItem("mensajes", JSON.stringify(mensajes));
+    }
+
 
     btnCargar.addEventListener("click", cargarMensajes);
   </script>
